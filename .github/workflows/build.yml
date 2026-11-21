@@ -12,7 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Ferramentas
-        run: sudo apt-get update && sudo apt-get install -y git python3 python3-pip curl make ninja-build meson pkg-config autoconf automake libtool xz-utils build-essential
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git python3 python3-pip curl make ninja-build pkg-config autoconf automake libtool xz-utils build-essential
+          sudo apt-get remove -y meson || true
+          sudo pip3 install --break-system-packages "meson>=1.4.0"
+          hash -r
+          meson --version
       - name: Compilar
         run: bash ./build.sh "" "" "$PWD/out" "${{ inputs.sdl }}" "${{ inputs.arch }}" "${{ inputs.maxmem }}" "$(nproc)"
       - uses: actions/upload-artifact@v4
