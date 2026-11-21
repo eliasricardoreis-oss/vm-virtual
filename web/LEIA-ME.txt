@@ -1,0 +1,28 @@
+VM VIRTUAL — duas máquinas no navegador
+
+ABA 1: QEMU x86_64 em WebAssembly (64 bits, só terminal serial, Alpine Linux)
+ABA 2: v86 (32 bits, COM TELA GRÁFICA, boot em segundos com estado salvo)
+
+1) python3 setup.py         (baixa tudo)
+   python3 setup.py v86     (só o modo gráfico, ~20 MB)
+   python3 setup.py qemu    (só o QEMU-wasm, ~150 MB)
+2) python3 serve.py         (abre em http://localhost:8080)
+
+Boot rápido (aba gráfica): ligue a VM, espere chegar ao prompt/desktop, clique em
+"Salvar estado". Nas próximas vezes ela volta já ligada em poucos segundos.
+Estados ficam no IndexedDB do navegador, comprimidos (gzip).
+
+Aba QEMU: downloads agora ficam em cache (Cache API); kernel e máquina com menos
+dispositivos/serviços para bootar mais rápido. Se algo não iniciar, ligue "Modo seguro".
+
+Hospedar: envie esta pasta inteira (com images/ e vendor/) para Cloudflare Pages, Netlify
+ou GitHub Pages. O arquivo _headers já define COOP/COEP; coi-serviceworker.js é reserva.
+Use Chrome ou Edge.
+
+Licenças: QEMU (GPL-2.0), qemu-wasm e demo (ktock), v86 (BSD-2-Clause), xterm.js e
+xterm-pty (MIT), coi-serviceworker (MIT).
+
+TELA GRÁFICA 64 BITS NO QEMU (EXPERIMENTAL, NÃO TESTADA)
+Aba 1 > "Tela gráfica 64 bits": envie sua ISO (ex.: Windows XP) e, se for instalar, crie um disco vazio.
+A tela vem por captura (screendump, ~1 quadro/s) e o teclado/mouse vão pelo monitor do QEMU.
+Em TCG dentro do navegador, instalar/bootar Windows XP pode levar de dezenas de minutos a horas.

@@ -1,0 +1,7 @@
+COMPILAR NA NUVEM (sem WSL, sem Emscripten local) — GitHub Actions, gratuito
+1) Crie um repositorio no GitHub e envie TODO o conteudo desta pasta (inclusive .github e web/).
+2) Aba Actions > build-qemu-wasm > Run workflow (escolha wasm32, SDL n, 4GB na primeira vez).
+3) Quando terminar (pode levar de 30 min a algumas horas), baixe o artefato "qemu-wasm-images"
+   e coloque o conteudo em web/images (substitui out.js, o .wasm em partes e manifest.json).
+4) Rode python3 web/setup.py (baixa o restante) e python3 web/serve.py.
+Comece com wasm32; wasm64 so abre em Chrome/Edge recentes e e ainda mais experimental.

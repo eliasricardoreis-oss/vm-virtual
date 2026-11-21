@@ -1,0 +1,21 @@
+name: build-qemu-wasm
+on:
+  workflow_dispatch:
+    inputs:
+      arch: { description: "wasm32 ou wasm64", default: "wasm32" }
+      sdl: { description: "SDL2 (s/n)", default: "n" }
+      maxmem: { description: "Memoria maxima", default: "4GB" }
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ferramentas
+        run: sudo apt-get update && sudo apt-get install -y git python3 python3-pip curl make ninja-build meson pkg-config autoconf automake libtool xz-utils build-essential
+      - name: Compilar
+        run: bash ./build.sh "" "" "$PWD/out" "${{ inputs.sdl }}" "${{ inputs.arch }}" "${{ inputs.maxmem }}" "$(nproc)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qemu-wasm-images
+          path: web/images
